@@ -32,4 +32,23 @@ pipeline {
       }
     }
   }
+
+  post {
+    always {
+      emailext(
+        to: 's224875746@deakin.edu.au',
+        subject: "Build ${currentBuild.fullDisplayName}: ${currentBuild.currentResult}",
+        body: """Hello,
+
+The pipeline for ${env.JOB_NAME} finished with status: ${currentBuild.currentResult}.
+
+Check the console log here: ${env.BUILD_URL}console
+
+Thanks,
+Jenkins
+""",
+        attachLog: true
+      )
+    }
+  }
 }
